@@ -15,7 +15,7 @@ namespace DiscordBot.Config
                 string lines = await fileReader.ReadToEndAsync();
                 foreach (string line in lines.Split("\n"))
                 {
-                    if (line == word) return true;
+                    if (line.Equals(word, StringComparison.CurrentCultureIgnoreCase)) return true;
                 }
             }
             return false;
