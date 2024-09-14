@@ -8,7 +8,7 @@ namespace DiscordBot.Game
             [
                 '.', ',', ':', ';', '`', '\'', '|', '\"', '<', '>',
                 '(', ')', '{', '}', '[', ']', '!', '@', '#', '$', '%',
-                '^', '&', '*', '1', '2', '3', '4', '5', '6', '7', '8', '9', '~', ' ' ];
+                '^', '&', '*', '1', '2', '3', '4', '5', '6', '7', '8', '9', '~',' ' ];
         public static char GetFirstWord(string undebuggedWord)
         {
             if (_banChars.Contains(undebuggedWord.ToLower()[0])) return GetFirstWord(undebuggedWord.Remove(0));
@@ -27,7 +27,7 @@ namespace DiscordBot.Game
 
         public static char GetLastWord(string undebuggedWord)
         {
-            if (_banChars.Contains(undebuggedWord.ToLower()[^1])) return GetLastWord(undebuggedWord.Remove(undebuggedWord.Length - 1));
+            if (_banChars.Contains(undebuggedWord.ToLower()[^1]) || 'й' == undebuggedWord.ToLower()[^1] || 'ы' == undebuggedWord.ToLower()[^1] ||  'ь' == undebuggedWord.ToLower()[^1]) return GetLastWord(undebuggedWord.Remove(undebuggedWord.Length - 1));
             else return undebuggedWord[^1];
         }
     }

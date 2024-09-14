@@ -1,15 +1,19 @@
 ﻿using DiscordBot.Config;
+using DiscordBot.DataPart;
+using DiscordBot.DataPart.Entities;
 using DiscordBot.Game;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Interactivity.EventHandling;
 using DSharpPlus.SlashCommands;
 
 namespace DiscordBot.Bot
 {
     internal class MainProgram
     {
+        public static DataContext Context = new();
         public static DiscordClient Client = null!;
-        public static Dictionary<Player, Player> PlayersGames = [];
+        public static Dictionary<PlayerEntity, PlayerEntity> PlayersGames = [];
         public static Dictionary<long, GameManager> Games = [];
         static async Task Main()
         {
@@ -32,6 +36,7 @@ namespace DiscordBot.Bot
             slashService.RegisterCommands<CommandList>();
 
             await Client.ConnectAsync();
+
             await Task.Delay(-1);
         }
 

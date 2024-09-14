@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 namespace DiscordBot.Config
 {
     public class ConfigReader
@@ -17,14 +11,14 @@ namespace DiscordBot.Config
             string jsonString = await reader.ReadToEndAsync();
             JSONStruct json = JsonConvert.DeserializeObject<JSONStruct>(jsonString);
 
-            Token = json.token;
-            Prefix = json.prefix;
+            Token = json.Token;
+            Prefix = json.Prefix;
         }
     }
 
     internal struct JSONStruct
     {
-        public string token { get; set; }
-        public string prefix { get; set; }
+        public string Token { get; set; }
+        public string Prefix { get; set; }
     }
 }

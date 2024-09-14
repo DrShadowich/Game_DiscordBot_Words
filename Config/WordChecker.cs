@@ -4,7 +4,6 @@ namespace DiscordBot.Config
 {
     public static class WordChecker
     {
-
         public static async Task<bool> IsWordAsync(string undebuggedWord)
         {
             string word = DebugString.GetRightString(undebuggedWord);
@@ -15,7 +14,7 @@ namespace DiscordBot.Config
                 string lines = await fileReader.ReadToEndAsync();
                 foreach (string line in lines.Split("\n"))
                 {
-                    if (line == word) return true;
+                    if (line.Equals(word, StringComparison.CurrentCultureIgnoreCase)) return true;
                 }
             }
             return false;
