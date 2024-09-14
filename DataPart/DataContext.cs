@@ -30,7 +30,7 @@ namespace DiscordBot.DataPart
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("host=localhost;port=5432;database=DiscordBot;username=postgres;password=yamamoto1");
+            optionsBuilder.UseNpgsql("YOUR LINK HERE");
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }
