@@ -27,7 +27,7 @@ namespace DiscordBot.DataPart.Entities
         }
 
         public void StartedGame() => _isActive = true;
-        public static bool IsAdmin(ulong Id) => Id == 780823809610481694;
+        public static bool IsAdmin(ulong Id) => Id == "(ulong) YOUR DISCORD ID HERE";
         public static string AdminName(DiscordUser? user) => IsAdmin(user is not null ? user.Id : 0) ? "Мой повелитель" : user is not null ? user.Username : "\0";
         public PlayerEntity WithUser(DiscordUser user)
         {
