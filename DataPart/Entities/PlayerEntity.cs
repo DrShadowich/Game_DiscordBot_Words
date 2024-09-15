@@ -1,4 +1,5 @@
-﻿using DiscordBot.Game.PlayerItems;
+﻿using DiscordBot.Bot;
+using DiscordBot.Game.PlayerItems;
 using DSharpPlus.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -11,11 +12,14 @@ namespace DiscordBot.DataPart.Entities
         protected bool _isActive = false;
         [Key]
         public Guid PlayerId { get; set; }
-        public DiscordUser? User { get; set; }
-        public Stats? Stats { get; set; }
+        public DiscordUser User { get; set; }
+        public Stats Stats { get; set; } = new();
         public bool Admin { get { return _isAdmin; } }
         public bool Active { get { return _isActive; } }
-        public PlayerEntity() { }
+        public PlayerEntity() 
+        {
+            User = MainProgram.Client.CurrentUser; // Заглушка
+        }
         public PlayerEntity(DiscordUser user)
         {
             if (IsAdmin(user.Id)) _isAdmin = true;

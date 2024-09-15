@@ -19,7 +19,7 @@ namespace DiscordBot.DataPart
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
-            Console.WriteLine("Успешно подключились!");
+            Console.WriteLine("> Успешно подключились к базе!");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

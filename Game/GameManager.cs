@@ -7,6 +7,7 @@ using DSharpPlus.SlashCommands;
 using System.Timers;
 using DiscordBot.DataPart.Entities;
 using DiscordBot.DataPart;
+using System.Numerics;
 
 namespace DiscordBot.Game
 {
@@ -26,7 +27,6 @@ namespace DiscordBot.Game
         private char _lastWord = '\0';
         private bool _firstTurn = true;
         private string _stopReason = string.Empty;
-        private DataContext _context;
         public long UID { get { return _gameId; } }
         public string LastString { get { return _lastString; } }
         public int TotalWordsCount { get { return _baseOfStrings.Count; } }
@@ -39,14 +39,13 @@ namespace DiscordBot.Game
         public DateTime GameStarted { get { return _now; } }
         public string StopReason { get { return _stopReason; } }
         #endregion
-        public GameManager(DataContext context, PlayerEntity firstPlayer, PlayerEntity secondPlayer, DiscordChannel channel, long ID, DiscordClient bot)
+        public GameManager(PlayerEntity firstPlayer, PlayerEntity secondPlayer, DiscordChannel channel, long ID, DiscordClient bot)
         {
             _gameId = ID;
             _channel = channel;
             _firstPlayer = firstPlayer;
             _secondPlayer = secondPlayer;
             _botClient = bot;
-            _context = context;
             _botClient.MessageCreated += OnMessageSend;
             _ = ResetTimer();
         }
@@ -79,15 +78,31 @@ namespace DiscordBot.Game
         }
         #endregion
         #region TECHMETHODS
-        private void OnTimer(object? s, ElapsedEventArgs e) => StopGame($"Никто не писал слово втечении {_maxMinuteWait} минут");
-        public async void Dispose() 
+        public bool IsPlayerExsist(PlayerEntity player)
+        {
+            if(IsPlayerExsist(player.User.Id)) return true;
+            return false;
+        }
+        public bool IsGameRuledByAdmin()
+        {
+            if (FirstPlayer.Admin || SecondPlayer.Admin) return true;
+            return false;
+        }
+        public bool IsPlayerExsist(ulong byUserId)
+        {
+            if (byUserId == FirstPlayer.User.Id) return true;
+            else if (byUserId == SecondPlayer.User.Id) return true;
+            return false;
+        }
+        public async void Dispose()
         {
             _fiveMinuteTime.Elapsed -= OnTimer;
             _botClient.MessageCreated -= OnMessageSend;
             Console.WriteLine($"> Игровая сессия {UID} {_firstPlayer.User?.Username} vs {_secondPlayer.User?.Username} закончилась.");
-            MainProgram.Games.Remove(_gameId);
+            MainProgram.Games.RemoveGame(_gameId);
             await Task.Run(() => GC.SuppressFinalize(this));
         }
+        private void OnTimer(object? s, ElapsedEventArgs e) => StopGame($"Никто не писал слово втечении {_maxMinuteWait} минут");
 
         private async Task ResetTimer()
         {

@@ -33,11 +33,11 @@ namespace DiscordBot.Bot
         public static DiscordEmbed GamesInfoEmbed(ulong GuildId)
         {
             string description = string.Empty;
-            foreach (var i in MainProgram.Games)
+            foreach (var i in MainProgram.Games.PlayingGames)
             {
-                if (i.Value.PlayChannel.GuildId == GuildId)
+                if (i.PlayChannel.GuildId == GuildId)
                 {
-                    description += $"Игра {i.Value.FirstPlayer.User?.Mention} vs {i.Value.SecondPlayer.User?.Mention}. ID = {i.Key}.\n";
+                    description += $"Игра {i.FirstPlayer.User?.Mention} vs {i.SecondPlayer.User?.Mention}. ID = {i.UID}.\n";
                 }
             }
             _message.Title = "Текущие сесси";
@@ -82,13 +82,21 @@ namespace DiscordBot.Bot
             _message.Description = "\0";
             return _message.Build();
         }
-        public static DiscordEmbed ShowStat(DiscordUser c, DataContext context)
+        public static DiscordEmbed ShowStat(DiscordUser c)
         {
-            _message.Title = $"Статистика {c.Username}";
-            PlayerEntity? p = context.Players.Find(c.Id);
-            foreach (var i in p?.Stats?.GetAllStats() is not null ? p.Stats.GetAllStats() : [])
+            try
             {
-                _message.Description += $"{i}\n";
+                _message.Title = $"Статистика {c.Username}";
+                Stats s = MainProgram.Context.PlayersStats.Find(0) ?? new();
+                foreach (var i in s.GetAllStats())
+                {
+                    _message.Description += $"{i}\n";
+                }
+                return _message.Build();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
             }
             return _message.Build();
         }

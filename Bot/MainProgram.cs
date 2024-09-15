@@ -1,7 +1,7 @@
 ﻿using DiscordBot.Config;
 using DiscordBot.DataPart;
 using DiscordBot.DataPart.Entities;
-using DiscordBot.Game;
+using DiscordBot.Game.GameItems;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity.EventHandling;
@@ -11,10 +11,11 @@ namespace DiscordBot.Bot
 {
     internal class MainProgram
     {
+        public static object Locker = new();
         public static DataContext Context = new();
         public static DiscordClient Client = null!;
-        public static Dictionary<PlayerEntity, PlayerEntity> PlayersGames = [];
-        public static Dictionary<long, GameManager> Games = [];
+        public static PlayedPlayers PlayersGames = new();
+        public static GamesContainer Games = new();
         static async Task Main()
         {
             ConfigReader jsonReader = new();
@@ -52,6 +53,7 @@ namespace DiscordBot.Bot
             Random random = new();
             int randint = random.Next() % 100;
             if (random.Next() % 100 == 5) await e.Message.RespondAsync("Факт");
+            if (random.Next() % 100 == 25) await e.Message.RespondAsync("Прочитал, удаляй.");
             else Console.WriteLine($"> Монетка была брошена и выбила: {randint}");
         }
     }

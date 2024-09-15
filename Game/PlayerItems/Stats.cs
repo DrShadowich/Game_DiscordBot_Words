@@ -7,6 +7,7 @@ namespace DiscordBot.Game.PlayerItems
         private Dictionary<string, int> _countWords = [];
         private Dictionary<string, int> _stats = [];
         public Guid Id { get; set; }
+        public ulong PlayerId { get; set; }
         public string?[] GetAllStats()
         {
             List<string> theWholeStats = [];
