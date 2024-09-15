@@ -82,9 +82,7 @@ namespace DiscordBot.Bot
             MainProgram.PlayersGames.AddPairPlayers(_firstPlayer, _secondPlayer);
             await c.EditResponseAsync(Embeds.WithWebHook(embed: Embeds.DuelEmbed(_firstPlayer, _secondPlayer)));
         }
-        // Продолжать реализовывать MainProgram.Context и начать выводить Stats у игрока.
-        // Для Stats надо тоже создавать собственный класс.
-        // Также зарефакторим код, с помощью нового Games
+
 
         [SlashCommand("RefuseWords", "Отказаться от вызова (отказаться могут обе стороны)")]
         public static async Task RefuseWords(InteractionContext c)
